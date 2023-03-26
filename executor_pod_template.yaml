@@ -1,0 +1,19 @@
+spec:
+  containers:
+    - name: spark-kubernetes-executor
+      volumeMounts:
+      - name: beam-data
+        mountPath: /opt/apache/beam/
+  initContainers:
+  - name: init-beam
+    image: apache/beam_python3.7_sdk
+    command:
+    - cp
+    - /opt/apache/beam/boot
+    - /init-container/data/boot
+    volumeMounts:
+    - name: beam-data
+      mountPath: /init-container/data
+  volumes:
+  - name: beam-data
+    emptyDir: {}
